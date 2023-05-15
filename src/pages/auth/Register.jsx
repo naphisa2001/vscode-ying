@@ -1,48 +1,121 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import md5 from "md5";
+import { insertstudent } from "../../slice/datatableSlice";
 import "../../assets/css/Register.css";
 
 function Register() {
   const navigate = useNavigate();
-  const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const dispatch = useDispatch();
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  const [inputregis, setinputregis] = useState({
+    name: "",
+    lastname: "",
+    sex: "",
+    username: "",
+    password: "",
+  });
 
-  const onSubmit = () => {
-    if (usernameInput != "" && passwordInput != "") {
-      navigate("/login");
-    } else {
-      window.alert("Please try again!!");
-    }
+  const handleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setinputregis({
+      ...inputregis,
+      [name]: value,
+    });
   };
+
+  const onSubmit = (e) => {
+    console.log("Hello!");
+    e.preventDefault();
+    if (
+      !inputregis.name ||
+      !inputregis.lastname ||
+      !inputregis.sex ||
+      !inputregis.username ||
+      !inputregis.password
+    ) {
+      console.log("Please try again!");
+      return;
+    }
+    const hashedPassword = md5(inputregis.password);
+    let body = {
+      name: inputregis.name,
+      lastname: inputregis.lastname,
+      sex: inputregis.sex,
+      username: inputregis.username,
+      password: hashedPassword,
+    };
+
+    dispatch(insertstudent(body))
+      .then((result) => {
+        console.log(result);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
 
   return (
     <div>
-      <Form>
-        <h1 className="log">REGISTER</h1>
-        <Form.Group  controlId="formBasicFirstname">
-          <Form.Label >FirstName  </Form.Label>
-          <Form.Control  type="firstname" placeholder="Enter firstname" />
-        </Form.Group>
-
-        <Form.Group  controlId="formBasicLastname">
-          <Form.Label >Lastname  </Form.Label>
-          <Form.Control type="lastname" placeholder="Enter lastname" />
-        </Form.Group>
-
-        <Form.Group controlId="usernameInput">
-          <Form.Label >Username  </Form.Label>
-          <Form.Control type="usernameInput" placeholder="Enter username" onChange={e => setUsernameInput(e.target.value)} />
-        </Form.Group>
-
-        <Form.Group controlId="passwordInput" >
-          <Form.Label>Password  </Form.Label>
-          <Form.Control type="passwordInput" placeholder="Enter password" onChange={e => setPasswordInput(e.target.value)} />
-        </Form.Group>
-        <Button className="button" onClick={() => onSubmit()} variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+      <h2 className="log">REGISTER</h2>
+      <div className="inputBorder">
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              className="input-line"
+              type="text"
+              name="name"
+              onChange={(e) => handleInput(e)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              className="input-line"
+              type="text"
+              name="lastname"
+              onChange={(e) => handleInput(e)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Sex</Form.Label>
+            <Form.Control
+              className="input-line"
+              type="text"
+              name="sex"
+              onChange={(e) => handleInput(e)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              className="input-line"
+              type="text"
+              name="username"
+              onChange={(e) => handleInput(e)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              className="input-line"
+              type="password"
+              name="password"
+              onChange={(e) => handleInput(e)}
+            />
+          </Form.Group>
+          <Button className="button" type="submit" onClick={onSubmit}>
+            Submit
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 }

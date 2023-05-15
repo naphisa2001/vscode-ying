@@ -160,6 +160,15 @@ function Sidebar() {
               <i>Table React </i>
             </NavLink>
 
+             {/* student Navdropdown */}
+             <NavDropdown className="a" title="Students" id="navbarScrollingDropdown">
+              <NavDropdown.Item>
+                <NavLink className="reportlink" to="student/Studentdata" >
+                  Student Table
+                </NavLink>
+              </NavDropdown.Item >  
+            </NavDropdown>
+         
             {/* report Navdropdown */}
             <NavDropdown className="a" title="Report" id="navbarScrollingDropdown">
               <NavDropdown.Item>

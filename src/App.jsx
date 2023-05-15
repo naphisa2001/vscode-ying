@@ -29,6 +29,7 @@ import EmptytableOverlay from "./pages/tableboot/EmptytableOverlay";
 import Remote from "./pages/tableboot/Remote";
 import Data from "./pages/tableboot/Data";
 import TestRedux from "./testredux/TestRedux";
+import Studentdata from "./student/Studentdata";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
           <Route path="tableboot/remote" element={<Remote />} />
           <Route path="tableboot/data" element={<Data />} />
           <Route path="tablereact" element={<TableReact />} />
+          <Route path="student/Studentdata" element={<Studentdata/>} />
           <Route path="about" element={<About />} />
           <Route path="content" element={<Content />} />
           <Route path="report/Report1" element={<Report1 />} />
